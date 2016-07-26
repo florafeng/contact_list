@@ -37,7 +37,7 @@ class Contact
       # TODO: Instantiate a Contact, add its data to the 'contacts.csv' file, and return it.
       id = (CSV.open('contacts.csv', 'r').readlines.count) + 1
       CSV.open('contacts.csv', 'a') do |csv_object|
-        csv_object.puts [name, email]
+        csv_object.puts [id, name, email]
       end
     end
     
@@ -46,6 +46,13 @@ class Contact
     # @return [Contact, nil] the contact with the specified id. If no contact has the id, returns nil.
     def find(id)
       # TODO: Find the Contact in the 'contacts.csv' file with the matching id.
+      contact = []
+      CSV.foreach('contacts.csv') do |row|
+        if row[0] == id
+          contact.push(Contact.new(row[1], row[2], row[0]))
+        end
+      end
+      contact
     end
     
     # Search for contacts by either name or email.
@@ -53,6 +60,13 @@ class Contact
     # @return [Array<Contact>] Array of Contact objects.
     def search(term)
       # TODO: Select the Contact instances from the 'contacts.csv' file whose name or email attributes contain the search term.
+      contact = []
+      CSV.foreach('contacts.csv') do |row|
+        if row[1].include?(term) || row[2].include?(term)
+          contact.push(Contact.new(row[1],row[2],row[0]))
+        end
+      end
+      contact
     end
 
   end
