@@ -13,13 +13,21 @@ class ContactList
       puts "\tshow - Show a contact"
       puts "\tfind - Find a contact"
     else
-      case @command
+      case ARGV.first
       when "new" then create_new_contact
-      when "list"
-      when "show"
-      when "search"
+      when "list" then Contact.all
+      when "show" then show_contact
+      when "search" then search_contact
       end
     end
+  end
+
+  def create_new_contact
+    puts "What's your contact name?"
+    name = STDIN.gets.chomp.to_s
+    puts "What's your contact email?"
+    email = STDIN.gets.chomp.to_s
+    Contact.create(name, email)
   end
 end
 
